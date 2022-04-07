@@ -22,7 +22,8 @@
                             </slider>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lit-jg-PVB">
                                 <rect key="frame" x="382" y="252" width="132" height="38"/>
-                                <color key="tintColor" systemColor="systemIndigoColor"/>
+                                <color key="backgroundColor" systemColor="linkColor"/>
+                                <color key="tintColor" systemColor="systemBackgroundColor"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Проверить">
                                     <fontDescription key="titleFontDescription" type="boldSystem" pointSize="20"/>
@@ -31,8 +32,14 @@
                                     <action selector="checkNumberButton" destination="BYZ-38-t0r" eventType="touchUpInside" id="eFg-nS-h1E"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Загаданное число:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fpo-BG-1ca">
+                                <rect key="frame" x="373" y="105" width="150" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eyk-HS-MGJ">
-                                <rect key="frame" x="443" y="320" width="10.5" height="21"/>
+                                <rect key="frame" x="443" y="141" width="10.5" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -43,15 +50,18 @@
                         <constraints>
                             <constraint firstItem="Pjv-4e-srh" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="7Oz-yg-ZEC"/>
                             <constraint firstItem="Pjv-4e-srh" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="FQB-f0-rb7"/>
+                            <constraint firstItem="Fpo-BG-1ca" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="GtK-0D-pmd"/>
+                            <constraint firstItem="Eyk-HS-MGJ" firstAttribute="top" secondItem="Fpo-BG-1ca" secondAttribute="bottom" constant="15" id="MKe-2l-B6k"/>
+                            <constraint firstItem="Pjv-4e-srh" firstAttribute="top" secondItem="Eyk-HS-MGJ" secondAttribute="bottom" constant="30" id="Mvy-3Q-vgD"/>
                             <constraint firstItem="Eyk-HS-MGJ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="jb3-Tb-vdo"/>
                             <constraint firstItem="Lit-jg-PVB" firstAttribute="top" secondItem="Pjv-4e-srh" secondAttribute="bottom" constant="30" id="jeF-SH-Q33"/>
-                            <constraint firstItem="Eyk-HS-MGJ" firstAttribute="top" secondItem="Lit-jg-PVB" secondAttribute="bottom" constant="30" id="kkW-Xe-OAe"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Pjv-4e-srh" secondAttribute="trailing" constant="20" id="shc-7H-mfM"/>
                             <constraint firstItem="Lit-jg-PVB" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="yEd-Bs-7YV"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="e96-82-XMQ"/>
                     <connections>
+                        <outlet property="checkBotton" destination="Lit-jg-PVB" id="w4B-FS-Odz"/>
                         <outlet property="label" destination="Eyk-HS-MGJ" id="6gs-tj-vgw"/>
                         <outlet property="slider" destination="Pjv-4e-srh" id="Jk8-lP-gok"/>
                     </connections>
@@ -64,8 +74,11 @@
     <resources>
         <image name="01.square.fill" catalog="system" width="128" height="114"/>
         <image name="50.square.fill" catalog="system" width="128" height="114"/>
-        <systemColor name="systemIndigoColor">
-            <color red="0.34509803921568627" green="0.33725490196078434" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <systemColor name="linkColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemPinkColor">
             <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
