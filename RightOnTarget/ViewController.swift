@@ -9,27 +9,26 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    // Сущность "Игра"
+    // Сущности
     var game: Game!
+    var round: Round!
+    var randomGenerator: RandomNumberGenerator!
 
     @IBOutlet var slider: UISlider!
     @IBOutlet var label: UILabel!
     @IBOutlet weak var checkBotton: UIButton!
     
-
     // MARK: - жизненный цикл
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // отредактировал кнопку
         checkBotton.layer.cornerRadius = 4
-
-        // Создаем экземпляр сущности "Игра"
-        game = Game(startValue: 1, endValue: 50, rounds: 5)
+        round = Round(rounds: 5)
+        randomGenerator = RandomNumberGenerator(startValue: 1, endValue: 50)
+        game = Game(valueGenerator: randomGenerator, roundController: round)
 
         // Обновляем данные о текущем значении загаданного числа
-        updateLabelWithSecretNumber(newText: String(game.currentSecretValue))
+        updateLabelWithSecretNumber()
     }
 
     // MARK: - взаимодействие view и model
@@ -49,15 +48,15 @@ class ViewController: UIViewController {
         }
 
         // Обновляем данные о текущем значении загаданного числа
-        updateLabelWithSecretNumber(newText: String(game.currentSecretValue))
-
+        updateLabelWithSecretNumber()
     }
 
     // MARK: - обновление view
 
     // Обновление текста загаданного числа
-    private func updateLabelWithSecretNumber(newText: String) {
-        label.text = newText
+    private func updateLabelWithSecretNumber() {
+        randomGenerator.getRandomValue()
+        label.text = String(randomGenerator.currentSecretNumber)
     }
 
     // отображение всплывающего окна со счетом
