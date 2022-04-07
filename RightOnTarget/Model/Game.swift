@@ -69,24 +69,4 @@ class Game: GameProtocol {
             score += 50
         }
     }
-
-//    func alertCheck() {
-//        if currentRound == lastRound {
-//            let alert = UIAlertController(
-//                title: "Игра окончена",
-//                message: "Вы заработали \(self.score) очков!",
-//                preferredStyle: .alert)
-//
-//            alert.addAction(UIAlertAction(
-//                title: "Начать заново",
-//                style: .default,
-//                handler: nil))
-//
-//            self.present(alert, animated: true, completion: nil)
-//            restartGame()
-//        }
-//
-//    }
-
-
 }

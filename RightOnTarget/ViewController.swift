@@ -9,100 +9,70 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    // Сущность "Игра"
+    var game: Game!
+
     @IBOutlet var slider: UISlider!
     @IBOutlet var label: UILabel!
+    @IBOutlet weak var checkBotton: UIButton!
+    
 
-    var number: Int = 0
-    var round: Int = 1
-    var points: Int = 0
-
-    lazy var secondVC: SecondViewController = getSecondViewController()
-
-    override func loadView() {
-        super.loadView()
-        print(#function)
-        // Создаем метку для вывода номера версии
-        let versionLabel = UILabel(frame: CGRect(x: 20, y: 40, width: 100, height: 20))
-        // Изменяем текст метки
-        versionLabel.text = "Версия 1.1"
-        // Добавляем метку в родительский view
-        view.addSubview(versionLabel)
-    }
+    // MARK: - жизненный цикл
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(#function)
-        number = Int.random(in: 1...50)
-        label.text = String(number)
+
+        // отредактировал кнопку
+        checkBotton.layer.cornerRadius = 4
+
+        // Создаем экземпляр сущности "Игра"
+        game = Game(startValue: 1, endValue: 50, rounds: 5)
+
+        // Обновляем данные о текущем значении загаданного числа
+        updateLabelWithSecretNumber(newText: String(game.currentSecretValue))
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        print(#function)
-    }
+    // MARK: - взаимодействие view и model
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        print(#function)
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        print(#function)
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        print(#function)
-    }
-
-    private func getSecondViewController() -> SecondViewController {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let viewController = storyboard.instantiateViewController(withIdentifier: "SecondViewController")
-        return viewController as! SecondViewController
-    }
-
-    /* Метод убран для добавления Navigation Controller
-    @IBAction func infoButton(_ sender: Any) {
-        //let newVC = SecondViewController() - это бы сработало, если бы view было сделано кодом, без сториборда.
-        // Загрузка сториборд.
-        // let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        // Загрузка VC со сцены в сториборда
-        // let viewController = storyboard.instantiateViewController(withIdentifier: "SecondViewController")
-        present(secondVC, animated: true, completion: nil)
-    }
-    */
-    
+    // Проверка выбранного полозователем числа
     @IBAction func checkNumberButton() {
 
-        let numSlider = Int(slider.value.rounded())
+        // Высчитываем очки за раунд
+        game.calculateScore(with: Int(slider.value))
 
-        if numSlider > number {
-            points += 50 - numSlider + number
-        } else if numSlider < number {
-            points += 50 - number + numSlider
-        } else if numSlider == number {
-            points += 50
+        // Проверяем окончена ли игра
+        if game.isGameEnded {
+            showAlertWith(score: game.score)
+            game.restartGame()
+        } else {
+            game.startNewRound()
         }
 
-        if round == 5 {
-            let alert = UIAlertController(
-                title: "Игра окончена",
-                message: "Вы заработали \(self.points) очков!",
-                preferredStyle: .alert)
+        // Обновляем данные о текущем значении загаданного числа
+        updateLabelWithSecretNumber(newText: String(game.currentSecretValue))
 
-            alert.addAction(UIAlertAction(
-                title: "Начать заново",
-                style: .default,
-                handler: nil))
+    }
 
-            present(alert, animated: true, completion: nil)
-            round = 0
-            points = 0
-        } 
+    // MARK: - обновление view
 
-        number = Int.random(in: 1...50)
-        label.text = String(number)
+    // Обновление текста загаданного числа
+    private func updateLabelWithSecretNumber(newText: String) {
+        label.text = newText
+    }
+
+    // отображение всплывающего окна со счетом
+    func showAlertWith(score: Int) {
+        let alert = UIAlertController(
+            title: "Игра окончена",
+            message: "Вы заработали \(score) очков!",
+            preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(
+            title: "Начать заново",
+            style: .default,
+            handler: nil))
+
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
