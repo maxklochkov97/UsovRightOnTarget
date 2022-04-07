@@ -9,69 +9,58 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    // Сущности
+    // Сущность "Игра"
     var game: Game!
-    var round: Round!
-    var randomGenerator: RandomNumberGenerator!
 
+    // Элементы на сцене
     @IBOutlet var slider: UISlider!
     @IBOutlet var label: UILabel!
-    @IBOutlet weak var checkBotton: UIButton!
-    
-    // MARK: - жизненный цикл
 
+    // MARK: - Жизненный цикл
     override func viewDidLoad() {
         super.viewDidLoad()
-        checkBotton.layer.cornerRadius = 4
-        round = Round(rounds: 5)
-        randomGenerator = RandomNumberGenerator(startValue: 1, endValue: 50)
-        game = Game(valueGenerator: randomGenerator, roundController: round)
-
+        // Создаем генератор случайных чисел
+        let generator = NumberGenerator(startValue: 1, endValue: 50)!
+        // Создаем сущность игра
+        game = Game(valueGenerator: generator, rounds: 5)
         // Обновляем данные о текущем значении загаданного числа
-        updateLabelWithSecretNumber()
+        updateLabelWithSecretNumber(newText: String(game.currentRound.currentSecretValue))
     }
 
-    // MARK: - взаимодействие view и model
+    // MARK: - Взаимодействие View - Model
 
-    // Проверка выбранного полозователем числа
+    // Проверка выбранного пользователем числа
     @IBAction func checkNumberButton() {
-
         // Высчитываем очки за раунд
-        game.calculateScore(with: Int(slider.value))
-
-        // Проверяем окончена ли игра
+        game.currentRound.calculateScore(with: Int(slider.value))
+        // Проверяем, окончена ли игра
         if game.isGameEnded {
+            // Показываем окно с итогами
             showAlertWith(score: game.score)
+            // Рестартуем игру
             game.restartGame()
         } else {
+            // Начинаем новый раунд игры
             game.startNewRound()
         }
-
         // Обновляем данные о текущем значении загаданного числа
-        updateLabelWithSecretNumber()
+        updateLabelWithSecretNumber(newText: String(game.currentRound.currentSecretValue))
     }
 
-    // MARK: - обновление view
+    // MARK: - Обновление View
 
     // Обновление текста загаданного числа
-    private func updateLabelWithSecretNumber() {
-        randomGenerator.getRandomValue()
-        label.text = String(randomGenerator.currentSecretNumber)
+    func updateLabelWithSecretNumber(newText: String ) {
+        label.text = newText
     }
 
-    // отображение всплывающего окна со счетом
-    func showAlertWith(score: Int) {
+    // Отображение всплывающего окна со счетом
+    private func showAlertWith( score: Int ) {
         let alert = UIAlertController(
             title: "Игра окончена",
-            message: "Вы заработали \(score) очков!",
+            message: "Вы заработали \(score) очков",
             preferredStyle: .alert)
-
-        alert.addAction(UIAlertAction(
-            title: "Начать заново",
-            style: .default,
-            handler: nil))
-
+        alert.addAction(UIAlertAction(title: "Начать заново", style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
 }
-

@@ -1,60 +1,61 @@
-//
-//  Game.swift
-//  RightOnTarget
-//
-//  Created by Максим Клочков on 07.04.2022.
-//
-
-import UIKit
+/**
+ Сущность "Игра"
+ */
 
 protocol GameProtocol {
+    // Количество заработанных очков
     var score: Int { get }
-    var secretValueGenerator: RandomNumberGenerator { get }
-    var round: Round { get }
+    // текущий раунд
+    var currentRound: GameRoundProtocol! { get }
+    // Проверяет, окончена ли игра
     var isGameEnded: Bool { get }
-
+    // Генератор случайного значения
+    var secretValueGenerator: GeneratorProtocol { get }
+    // Начинает новую игру и сразу стартует первый раунд
     func restartGame()
+    // Начинает новый раунд
     func startNewRound()
 }
 
-
 class Game: GameProtocol {
-    var secretValueGenerator: RandomNumberGenerator
-    var round: Round
-    var score = 0
+    var score: Int {
+        var totalScore: Int = 0
+        for round in self.rounds {
+            totalScore += round.score
+        }
+        return totalScore
+    }
+    var currentRound: GameRoundProtocol!
+    private var rounds: [GameRoundProtocol] = []
+    var secretValueGenerator: GeneratorProtocol
+    private var roundsCount: Int!
     var isGameEnded: Bool {
-        if round.currentRound >= round.lastRound {
+        if roundsCount == rounds.count {
             return true
         } else {
             return false
         }
     }
 
-    init(valueGenerator: RandomNumberGenerator, roundController: Round) {
+    init(valueGenerator: GeneratorProtocol, rounds: Int) {
         secretValueGenerator = valueGenerator
-        round = roundController
-    }
-
-    func calculateScore(with userValue: Int) {
-        let randomValue = secretValueGenerator.currentSecretNumber ?? 0
-
-        if userValue > randomValue {
-            score += 50 - userValue + randomValue
-        } else if userValue < randomValue {
-            score += 50 - randomValue + userValue
-        } else if userValue == randomValue {
-            score += 50
-        }
+        roundsCount = rounds
+        startNewRound()
     }
 
     func restartGame() {
-        round.currentRound = 0
-        score = 0
+        rounds = []
         startNewRound()
     }
 
     func startNewRound() {
-        secretValueGenerator.getRandomValue()
-        round.startNewRound()
+        let newSecretValue = self.getNewSecretValue()
+        currentRound = GameRound(secretValue: newSecretValue)
+        rounds.append( currentRound )
+    }
+
+    // Загадать и вернуть новое случайное значение
+    private func getNewSecretValue() -> Int {
+        return secretValueGenerator.getRandomValue()
     }
 }
