@@ -29,7 +29,7 @@
                                     <fontDescription key="titleFontDescription" type="boldSystem" pointSize="20"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <action selector="checkNumberButton" destination="BYZ-38-t0r" eventType="touchUpInside" id="eFg-nS-h1E"/>
+                                    <action selector="checkNumberButton" destination="BYZ-38-t0r" eventType="touchUpInside" id="K8D-Fh-Cb8"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Загаданное число:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fpo-BG-1ca">
@@ -61,7 +61,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="e96-82-XMQ"/>
                     <connections>
-                        <outlet property="checkBotton" destination="Lit-jg-PVB" id="w4B-FS-Odz"/>
                         <outlet property="label" destination="Eyk-HS-MGJ" id="6gs-tj-vgw"/>
                         <outlet property="slider" destination="Pjv-4e-srh" id="Jk8-lP-gok"/>
                     </connections>
